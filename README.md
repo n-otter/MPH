@@ -1,4 +1,4 @@
-# Multiparameter persistent homology
+# Stratifying multiparameter persistent homology
 
 Here you can find code for computation of invariants for multiparameter persistence modules, as introduced in the paper Stratifying multiparameter persistent homology, by H. Harrington, N. Otter, H. Schenck and U. Tillmann, preprint available at https://arxiv.org/abs/1708.07390, henceforth referred to as HOST.
 
@@ -22,13 +22,14 @@ In the file <a href="https://github.com/n-otter/MPH/blob/master/homology
 
 
 
-<a href=""Here</a< we illustrate how to build a chain complex, and then how to compute a minimal presentation of the first homology for the bifiltration in Example  3.24 in HOST.
+<a href="https://github.com/n-otter/MPH/blob/master/first_example">Here</a> we illustrate how to build a chain complex, and then how to compute a minimal presentation of the first homology for the bifiltration in Example  3.24 in HOST.
 
 
 
 
 ## Hilbert function and series, local cohomology.
 
+<a href="https://github.com/n-otter/MPH/blob/master/hilbert">Here</a> we show how one can compute the Hilbert function and series, and display the Hilbert function as a table.
 
 
 ## Rank.
