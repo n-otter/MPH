@@ -1,0 +1,34 @@
+i1 : R=ZZ/31991[a..f];
+
+-- I is the monomial ideal of the non-edges
+i2 : I = monomialIdeal (a*c,a*d,a*e,b*d,b*e,c*f,d*f);
+
+-- W is a list of lists: the first list  stores the entry degrees of the vertices, 
+-- the second list the entry degrees of the edges 
+-- and the third list  the entry degrees of the faces. 
+-- Vertices, edges and faces are ordered by lexicographical order.
+i3 : W={{{1,1},{0,0},{0,0},{1,0},{0,0},{0,0}}, 
+   {{1,2},{1,2},{2,2},{0,2},{1,0},{0,1},{1,0},{2,0}},
+   {{2,2},{3,1}}};
+   
+--Build the simplicial complex
+i4 : K=simplicialComplex I;
+i5 : AllFaces K;
+
+-- Build the chain complex
+i6 : Kcomplex=BuildCC2(K,W);
+
+--Compute a minimal presentation of the first homology of the chain complex
+
+i7 : prune(HH_1(Kcomplex))
+
+o7 = cokernel {1, 1} | x_1^2 0   |
+              {1, 2} | 0     x_1 |
+              {2, 2} | 0     0   |
+
+                             3
+o7 : S-module, quotient of S
+
+-- For space reasons we only report the ouput of the computation of the 
+-- minimal presentation of the module; note that the command 
+-- Kcomplex=BuildCC2(K,W); gives the same chain complex as in Example 3.24 in HOST. 
