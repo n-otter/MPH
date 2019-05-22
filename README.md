@@ -1,2 +1,3 @@
-# MPH
-Code for the computation of multiparameter persistent homology
+# Multiparameter persistent homology
+
+Here you can find code for the computation of invariants of multiparameter persistence modules.
