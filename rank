@@ -1,0 +1,27 @@
+ -- Script to change from a Z^2 graded ring to a singly graded ring.
+
+      RestrictLine2 = (U)->(V = vars ring U;
+                            n=rank source V;
+                            A = ZZ/31991[a_1..a_n];
+                            W = vars A;
+                            L = apply(n, i->(V_(0,i)=>W_(0,i)));
+                            Uzgraded = A**(matrix MatToList sub(U, L));
+                            firstVar = matrix{apply(n, i->a_1)};
+                            diagonalIdeal = ideal(firstVar-W);
+                            diagonalVar = coker mingens diagonalIdeal;
+                            Udiag = coker(Uzgraded)**diagonalVar;
+                            hilbertPolynomial Udiag)
+
+
+ -- Script to take a multigraded module U, and return the
+      --same module over a Z graded ring A with the same number
+      --of variables, then restrict to the diagonal and return
+      --hilbertPolynomial which is of the form rP_0, r = rk(M).
+      --NEED TO HAVE INPUT U A MATRIX (use presentation U if U
+      --is a module to get the presentation matrix). Calls the
+      --script MatToList to fix grading issues.
+     
+
+      MatToList = (AMAT)->(s = rank source AMAT;
+                        t = rank target AMAT;
+                        apply(t, i->(apply(s, j->(AMAT_(i,j))))))
