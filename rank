@@ -25,3 +25,24 @@
       MatToList = (AMAT)->(s = rank source AMAT;
                         t = rank target AMAT;
                         apply(t, i->(apply(s, j->(AMAT_(i,j))))))
+
+--For example, for the modules in Example 3.29 in HOST one computes:
+
+
+i1 : RestrictLine2 presentation N
+
+o1 = 2*P
+        0
+
+o1 : ProjectiveHilbertPolynomial
+
+i2 :  RestrictLine2 presentation M
+
+o2 = 2*P
+        0
+o2 : ProjectiveHilbertPolynomial
+
+
+
+--So the modules have both rank $2$, as was expected.
+
