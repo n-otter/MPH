@@ -29,9 +29,9 @@ In the file <a href="https://github.com/n-otter/MPH/blob/master/homology
 
 ## Hilbert function and series, local cohomology.
 
-<a href="https://github.com/n-otter/MPH/blob/master/hilbert">Here</a> we show how one can compute the Hilbert function and series, and display the Hilbert function as a table.
+In the file <a href="https://github.com/n-otter/MPH/blob/master/hilbert">hilbert</a> we show how one can compute the Hilbert function and series, and display the Hilbert function as a table.
 
 
 ## Rank.
 
-Here we provide a code to compute the rank of the module, using the reduction to a line of Section \ref{S:restriction to line}.
+Here we provide a code to compute the rank of the module, using the reduction to a line of Section  of HOST.
