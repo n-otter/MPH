@@ -1,0 +1,195 @@
+--Input M a bigraded module. Output is a 6x6 grid displaying 
+--(low degree) values of the bigraded Hilbert function, and the 
+--bigraded Hilbert series. Specific to the 2D case. Also for
+--the 3 valuse I in {{x_1},{x_2},{x_1,x_2}} compute  H^0_I(M). 
+
+Dis = (M)->(print matrix table(6,6, 
+                  T=(i,j)->hilbertFunction({5-i,j},M));
+            print hilbertSeries M;
+            print "H^0_I(M) for all associated primes";
+            R=ring(M);
+            Vlist=rvectTolist vars(R);
+            AllPrimes = drop((subsets Vlist),1);
+            --get all subsets of vars, drop the empty one
+            H0I=apply(AllPrimes, i-> saturate(0_M, ideal(i)));
+            --compute H^0_I(M) for all associated primes
+            scan(#AllPrimes, i->(print AllPrimes_i;
+                         PHOI = prune H0I_i;
+                         print PHOI;
+                         if PHOI =!=0_M then print hilbertSeries H0I_i)))
+
+---Example 3.24
+i22 : Dis HH_1 Kcomplex
+| 0 0 1 1 1 1 |
+| 0 0 1 1 1 1 |
+| 0 0 1 1 1 1 |
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 0 0 0 0 0 |
+          2    3
+T T  + T T  - T T
+ 0 1    0 1    0 1
+------------------
+ (1 - T )(1 - T )
+       1       0
+H^0_I(M) for all associated primes
+{x }
+  1
+cokernel {1, 1} | x_1^2 0   |
+         {1, 2} | 0     x_1 |
+
+        2      3      2 2
+T T  + T T  - T T  - T T
+ 0 1    0 1    0 1    0 1
+-------------------------
+     (1 - T )(1 - T )
+           1       0
+{x }
+  2
+0
+
+{x , x }
+  1   2
+0
+---Example 3.25
+
+i23 : Dis HH_1 C
+| 0 0 1 1 1 1 |
+| 0 0 1 1 1 1 |
+| 0 0 1 1 1 1 |
+| 0 1 2 2 2 2 |
+| 0 1 2 1 1 1 |
+| 0 0 0 0 0 0 |
+
+    2     3           3      2 3
+T T  + T T  - T T  - T T  + T T
+ 0 1    0 1    0 1    0 1    0 1
+--------------------------------
+        (1 - T )(1 - T )
+              1       0
+H^0_I(M) for all associated primes
+{x }
+  1
+cokernel {1, 1} | x_1^2 0   0   |
+         {1, 2} | 0     x_2 x_1 |
+
+   2    3      2 2      3    2 3
+T T  + T T  - T T  - T T  - T T  + T T
+ 0 1    0 1    0 1    0 1    0 1    0 1
+---------------------------------------
+            (1 - T )(1 - T )
+                  1       0
+{x }
+  2
+cokernel {1, 2} | x_2 x_1 |
+
+   2    2 2      3    2 3
+T T  - T T  - T T  + T T
+ 0 1    0 1    0 1    0 1
+-------------------------
+     (1 - T )(1 - T )
+           1       0
+
+{x , x }
+  1   2
+
+cokernel {1, 2} | x_2 x_1 |
+
+   2    2 2      3    2 3
+T T  - T T  - T T  + T T
+ 0 1    0 1    0 1    0 1
+-------------------------
+     (1 - T )(1 - T )
+           1       0
+
+--Notice that the submodule of H_1 annihilated by x_2 and the
+--submodule annihilated by x_1,x_2 are the same, which makes
+--sense since this submodule is isomorphic to R/x_1,x_2.
+
+---Example 3.29 in HOST
+o16 : M=S^{{-1,-1}}++S^{{-2,-2}}
+o16 : S-module, free, degrees {{1, 1}, {2, 2}}
+
+i17 : M=S^{{-1,-1}}++S^{{-2,-2}};
+
+i17 : Dis(M)
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 1 1 1 1 |
+| 0 0 0 0 0 0 |
+            2 2
+    T T  + T T
+     0 1    0 1
+----------------
+(1 - T )(1 - T )
+       1       0
+
+H^0_I(M) for all associated primes
+{x }
+  1
+0
+
+{x }
+  2
+0
+
+{x , x }
+  1   2
+0
+--Since M is a free module, there only submodule supported
+--on the (possible) associated primes is the 0 submodule.
+
+i19 : N=S^{{-2,-2}}++S^{{-2,-2}}++((coker matrix{{x_2}})**S^{{-1,-1}})
+                                ++((coker gens ideal(x_1))**S^{{-1,-2}})
+
+o19 = cokernel {2, 2} | 0   0   |
+               {2, 2} | 0   0   |
+               {1, 1} | x_2 0   |
+               {1, 2} | 0   x_1 |
+
+i20 : Dis(N)
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 2 2 2 2 |
+| 0 1 1 1 1 1 |
+| 0 0 0 0 0 0 |
+           2 2
+   T T  + T T
+    0 1    0 1
+----------------
+(1 - T )(1 - T )
+      1       0
+
+H^0_I(M) for all associated primes
+{x }
+  1
+cokernel {1, 2} | x_1 |
+
+      2    2 2
+   T T  - T T
+    0 1    0 1
+----------------
+(1 - T )(1 - T )
+      1       0
+{x }
+  2
+
+cokernel {1, 1} | x_2 |
+             2
+   T T  - T T
+    0 1    0 1
+----------------
+(1 - T )(1 - T )
+      1       0
+
+{x , x }
+  1   2
+0
+
+
+--Note that the modules M and N have the same Hilbert function and multigraded Hilbert series, 
+--but the local cohomology distinguishes them.
+
