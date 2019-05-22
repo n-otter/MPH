@@ -1,0 +1,43 @@
+loadPackage "SimplicialComplexes"
+
+--Turn a row vector into a list.
+rvectTolist = (M)->(apply(rank source M, i->M_(0,i)))
+
+--Tor every face, we need to assign it the multidegree
+--in which it appears. For now, just work with a Z^2 grading.
+
+AllFaces=(SC)->(apply((dim D)+2, i->(rvectTolist faces(i,SC))))
+
+WeightedFaces = (SC, W)->(FF=flatten AllFaces(SC);
+                          FW=flatten W;
+                          apply(#FF, i->({FF#i, FW#i})))
+
+--Build the ith differential. Use the differential from the simplicial complex, 
+--and the hash table with the weightings. 
+
+WD = (SC,W,i)->(Fi = faces(i,SC);
+                Fim = faces(i-1,SC);
+                f=rank source Fi;
+                g=rank source Fim;
+                apply(g,m->(apply(f,n->(if ((CCSC.dd_i)_(m,n) !=0) then (y_1^(HT#(Fi_(0,n))#0-
+                HT#(Fim_(0,m))#0)*y_2^(HT#(Fi_(0,n))#1-HT#(Fim_(0,m))#1))*((CCSC.dd_i)_(m,n)) 
+                else 0_R1)))))
+                
+                
+ ---Build the chain complex for a bifiltration.
+ 
+      BuildCC2 =(SC,W)->(R1=R[y_1,y_2];
+                  CCSC = chainComplex SC;
+                  d = dim(SC)+1;
+                  HT=hashTable WeightedFaces(SC,W);          
+                  listdiffs=apply(d, i->(WD(SC,W,i+1)));
+                  S=ZZ/31991[x_1,x_2, Degrees=>{{1,0},{0,1}}];
+                  tidyup=map(S,R1, matrix{{x_1,x_2}});
+                  listdiffsS=apply(listdiffs, i->apply(i, j->apply(j, k->tidyup k)));
+                  diffs1 = apply(listdiffsS, i->(matrix i)**S);
+                  --Top differential has target ZZ^n instead of R1^n, just tensor 
+                  --everything together   
+                  Clist = apply(W, j->directSum(apply(j, i->S^{-i})));
+                  diffs2 = apply((#Clist-1), i->(map(Clist_i, Clist_(i+1), 
+                  diffs1#i)));
+                  chainComplex(diffs2))
