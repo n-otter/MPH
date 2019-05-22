@@ -34,4 +34,4 @@ In the file <a href="https://github.com/n-otter/MPH/blob/master/hilbert">hilbert
 
 ## Rank.
 
-Here we provide a code to compute the rank of the module, using the reduction to a line of Section  of HOST.
+In the file <a href="https://github.com/n-otter/MPH/blob/master/rank">rank</a> we provide a code to compute the rank of the module, using the reduction to a line of Section 5 of HOST.
