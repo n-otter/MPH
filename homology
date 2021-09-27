@@ -6,7 +6,7 @@ rvectTolist = (M)->(apply(rank source M, i->M_(0,i)))
 --Tor every face, we need to assign it the multidegree
 --in which it appears. For now, just work with a Z^2 grading.
 
-AllFaces=(SC)->(apply((dim D)+2, i->(rvectTolist faces(i,SC))))
+AllFaces=(SC)->(apply((dim SC)+2, i->(rvectTolist faces(i,SC))))
 
 WeightedFaces = (SC, W)->(FF=flatten AllFaces(SC);
                           FW=flatten W;
